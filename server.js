@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 
 const app = express();
+
 app.use(cors());
 app.use(express.json());
 
@@ -12,23 +13,23 @@ app.get("/", (req, res) => {
 
 // Trip planning API
 app.post("/plan-trip", (req, res) => {
-    const { place, date, people } = req.body;
+    const { from, to, date } = req.body;
 
-    if (!place || !date || !people) {
-        return res.json({ message: "All fields required ❌" });
+    if (!from || !to || !date) {
+        return res.json({
+            message: "All fields required ❌"
+        });
     }
 
-    const response = {
+    res.json({
         message: "Trip planned successfully ✅",
         trip: {
-            place,
+            from,
+            destination: to,
             date,
-            people,
             suggestion: "Pack light and carry ID proof 🧳"
         }
-    };
-
-    res.json(response);
+    });
 });
 
 app.listen(3000, () => {
