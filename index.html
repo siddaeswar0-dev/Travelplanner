@@ -1,26 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Travel Planner</title>
-  <link rel="stylesheet" href="style.css">
+    <title>Travel Planner</title>
 </head>
 <body>
 
-  <div class="container">
-    <h1>Travel Planner</h1>
+<h2>Travel Planner</h2>
 
-    <input type="text" id="destination" placeholder="Enter destination">
-    <input type="date" id="date">
-    <button id="planBtn">Plan Trip</button>
+<input id="from" placeholder="From">
+<input id="to" placeholder="To">
+<input id="date" type="date">
 
-    <p id="result"></p>
+<button onclick="planTrip()">Plan My Trip</button>
 
-    <!-- image display -->
-    <img id="placeImage" src="" alt="Destination Image" style="display:none;">
-  </div>
+<p id="result"></p>
 
-  <script src="script.js"></script>
+<script>
+function planTrip() {
+    let from = document.getElementById("from").value;
+    let to = document.getElementById("to").value;
+    let date = document.getElementById("date").value;
+
+    fetch("http://localhost:3000/plan-trip", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ from, to, date })
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("result").innerText = data.message;
+    });
+}
+</script>
+
 </body>
 </html>
